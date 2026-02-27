@@ -1177,27 +1177,27 @@ ${doc.querySelector('parsererror').innerText}`)
             const groupedBySection = groupBySection(item.subitems)
             const newSubitems = []
 
-        for (const [sectionId, subitems] of groupedBySection.entries()) {
-            if (item.href === sectionId) {
-                // Parent already covers this section, keep subitems flat
-                newSubitems.push(...subitems)
-                continue
-            }
-            if (subitems.length === 1) {
-                // Single item, keep as-is
-                newSubitems.push(subitems[0])
-            } else {
-                const { parent, fragments } = separateParentAndFragments(sectionId, subitems)
-                if (parent) {
-                    // Natural parent exists, group fragment items under it
-                    parent.subitems = fragments.length > 0 ? fragments : parent.subitems
-                    newSubitems.push(parent)
-                } else {
-                    // No natural parent among subitems, keep them flat
+            for (const [sectionId, subitems] of groupedBySection.entries()) {
+                if (item.href === sectionId) {
+                    // Parent already covers this section, keep subitems flat
                     newSubitems.push(...subitems)
+                    continue
+                }
+                if (subitems.length === 1) {
+                    // Single item, keep as-is
+                    newSubitems.push(subitems[0])
+                } else {
+                    const { parent, fragments } = separateParentAndFragments(sectionId, subitems)
+                    if (parent) {
+                        // Natural parent exists, group fragment items under it
+                        parent.subitems = fragments.length > 0 ? fragments : parent.subitems
+                        newSubitems.push(parent)
+                    } else {
+                        // No natural parent among subitems, keep them flat
+                        newSubitems.push(...subitems)
+                    }
                 }
             }
-        }
 
             item.subitems = newSubitems
         }
